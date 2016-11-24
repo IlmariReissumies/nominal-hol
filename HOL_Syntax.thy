@@ -1,4 +1,4 @@
-theory HOL_Syntax2
+theory HOL_Syntax
   imports Nominal2
 begin
 
@@ -14,25 +14,12 @@ where
 
 atom_decl name
 
-instantiation ty :: pt
+instantiation ty :: pure
 begin
 definition
   "p \<bullet> (t::ty) = t"
-
 instance
-by standard (simp_all add: permute_ty_def)
-end
-
-instantiation ty :: fs
-begin
-instance
-by standard (simp add: supp_def permute_ty_def)
-end
-
-instantiation ty :: pure
-begin
-instance
-by standard (simp add: permute_ty_def)
+by standard (simp add: permute_ty_def supp_def)+
 end
 
 nominal_datatype lam =
@@ -63,6 +50,8 @@ apply auto
 apply perm_simp
 apply simp
 done
+
+nominal_termination (eqvt) by(lexicographic_order)
 
 (* no_notation (ASCII) Set.member ("op :") *)
 
